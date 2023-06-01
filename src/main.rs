@@ -14,6 +14,6 @@ end"
     let ast = parser::parse(&mut l); 
 
     while let Some(t) = l.next() {
-        println!("{:?}", t.t_type);
+        println!("Position: {}, {}; Token: {:?}", t.row, t.col, t.t_type);
     }
 }

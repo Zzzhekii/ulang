@@ -57,6 +57,8 @@ impl Lexer {
     fn advance(&mut self) {
         self.skip_whitespaces();
 
+        let (row, col) = (self.row + 1, self.col);
+
         if let Some(c) = self.next_character() {
             self.peek_t = Some(
                 match c {
@@ -64,34 +66,42 @@ impl Lexer {
                     '\n' => token::Token::new(
                         token::TokenType::NewLine,
                         String::from(c),
+                        row, col
                     ),
                     ';' => token::Token::new(
                         token::TokenType::Semicolon,
                         String::from(c),
+                        row, col
                     ),
                     '(' => token::Token::new(
                         token::TokenType::LParen,
                         String::from(c),
+                        row, col
                     ),
                     ')' => token::Token::new(
                         token::TokenType::RParen,
                         String::from(c),
+                        row, col
                     ),
                     '+' => token::Token::new(
                         token::TokenType::Plus,
                         String::from(c),
+                        row, col
                     ),
                     '-' => token::Token::new(
                         token::TokenType::Minus,
                         String::from(c),
+                        row, col
                     ),
                     '*' => token::Token::new(
                         token::TokenType::Multiply,
                         String::from(c),
+                        row, col
                     ),
                     '/' => token::Token::new(
                         token::TokenType::Divide,
                         String::from(c),
+                        row, col
                     ),
 
                     // Number
@@ -101,14 +111,18 @@ impl Lexer {
                         token::Token::new(
                             token::TokenType::Number(number, base),
                             self.source[start_pos-2 .. self.pos-1].to_string(),
+                            row, col
                         )
                     }
 
                     // String
-                    '\'' => token::Token::new(
-                        token::TokenType::String,
-                        String::from(self.scan_string('\'').unwrap()),
-                    ),
+                    '\'' => {
+                        token::Token::new(
+                            token::TokenType::String,
+                            String::from(self.scan_string('\'').unwrap()),
+                            row, col
+                        )
+                    },
                     
                     // Keywords & idents
                     _ => {
@@ -116,7 +130,8 @@ impl Lexer {
 
                         let mut t = token::Token::new(
                             token::TokenType::Illegal("undefined".to_string()),
-                            ident.clone()
+                            ident.clone(),
+                            row, col
                         );
 
                         match ident.clone().as_str() {

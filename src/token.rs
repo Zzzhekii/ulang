@@ -37,14 +37,18 @@ pub enum TokenType {
 pub struct Token {
     pub t_type: TokenType,
     pub ident: String,
+    pub row: u128,
+    pub col: u128,
 }
 
 #[allow(dead_code)]
 impl Token {
-    pub fn new(t_type: TokenType, ident: String) -> Self {
+    pub fn new(t_type: TokenType, ident: String, row: u128, col: u128) -> Self {
         Token {
             t_type,
             ident,
+            row,
+            col,
         }
     }
 }
