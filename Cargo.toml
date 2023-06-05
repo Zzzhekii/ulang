@@ -1,3 +1,14 @@
+[workspace]
+members = [
+    "ulangi",
+    "ulangc",
+    "ulangvm",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+
 [package]
 name = "ulang"
 version = "0.1.0"
