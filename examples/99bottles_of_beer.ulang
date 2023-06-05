@@ -1,0 +1,21 @@
+-- An example '99 bottles of bear' program.
+
+const AMOUNT_OF_BOTTLES = 99
+
+const main = fn
+    let current_amount = AMOUNT_OF_BOTTLES
+    while current_amount > 0 do
+        println '{} bottles of beer on the wall, {} bottles of beer.'
+        println 'Take one down and pass it around, {}', do
+            current_amount -= 1
+            if current_amount == 0
+                'no more bottles of beer on the wall.'
+            else
+                format '{} bottles of beer on the ball.', current_amount
+            end
+        end
+    end
+
+    println 'No more bottles of beer on the wall, no more bottles of beer.'
+    println 'Go to the store and buy some more, {} bottles of beer on the wall.', AMOUNT_OF_BOTTLES
+end

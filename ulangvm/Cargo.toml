@@ -1,0 +1,11 @@
+[package]
+name = "ulangvm"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "ulangvm"
+path = "src/main.rs"
+
+[dependencies]
+ulang = { path = ".." }
