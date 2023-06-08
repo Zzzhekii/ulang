@@ -2,7 +2,7 @@
 
 const AMOUNT_OF_BOTTLES = 99
 
-const main = fn
+static main = fn
     let current_amount = AMOUNT_OF_BOTTLES
     while current_amount > 0 do
         println '{} bottles of beer on the wall, {} bottles of beer.'
