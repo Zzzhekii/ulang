@@ -36,8 +36,6 @@ pub fn new_header<'h>() -> &'h [u8] {
     // Terminate the string
     header.push('\0' as u8);
 
-
-
     header.leak()
 }
 
@@ -53,31 +51,57 @@ General insturction layout:
     [OPCODE] [ARGS]
 */
 
+fn opcode_list() -> Vec<(Opcode, u8, &'static str)> {
+    vec![
+        (Opcode::Nop,   0b00001_000, "NOP"),
+        (Opcode::Copy,  0b00010_000, "COPY"),
+        (Opcode::Move,  0b00011_000, "MOVE"),
+        (Opcode::Add,   0b00100_000, "ADD"),
+        (Opcode::Sub,   0b00101_000, "SUB"),
+        (Opcode::Goto,  0b00110_000, "GOTO"),
+        (Opcode::Call,  0b00111_000, "CALL"),
+    ]
+}
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Opcode {
-    Nop     = 0b00001_000,
-    Copy    = 0b00010_000,
-    Move    = 0b00011_000,
-    Add     = 0b00100_000,
-    Sub     = 0b00101_000,    // Substruct
-    Goto    = 0b00110_000,
-    Call    = 0b00111_000,
+    Nop,
+    Copy,
+    Move,
+    Add,
+    Sub,    // Substruct
+    Goto,
+    Call,
 }
 
 impl Opcode {
-    fn to_u8(&self) -> u8 {
-        *self as u8
+    pub fn from_u8(byte: u8) -> Self {
+        for (op, b, _) in opcode_list() {
+            if byte == b {
+                return op
+            }
+        }
+
+        panic!("[BUG] Could not convert byte to an opcode. Got: {}.", byte)
     }
 
-    fn to_str(&self) -> &str {
-        match *self {
-            Self::Nop   => "NOP",
-            Self::Copy  => "COPY",
-            Self::Move  => "MOVE",
-            Self::Add   => "ADD",
-            Self::Sub   => "SUB",
-            Self::Goto  => "GOTO",
-            Self::Call  => "CALL",
+    pub fn to_u8(&self) -> u8 {
+        for (op, b, _) in opcode_list() {
+            if *self == op {
+                return b;
+            }
         }
+
+        panic!("[BUG] Could not convert opcode to a byte. Got: {:?}.", *self)
+    }
+
+    pub fn to_str(&self) -> &str {
+        for (op, _, string) in opcode_list() {
+            if *self == op { 
+                return string;
+            }
+        }
+
+        panic!("[BUG] Could not convert opcode to a string. Got: {:?}.", *self)
     }
 }

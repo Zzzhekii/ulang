@@ -28,5 +28,8 @@ fn main() {
 //         println!("{:?}", t);
 //     }
     
-    println!("{:?}", ulang::bytecode::new_header())
+    //println!("{:?}", ulang::bytecode::new_header())
+
+    let vm = ulang::vm::vm::VM::new();
+    vm.run();
 }
